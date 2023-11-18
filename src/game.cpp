@@ -3,8 +3,8 @@
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake_1(grid_width, grid_height, grid_width * 1 / 3, grid_height),
-      snake_2(grid_width, grid_height, grid_width * 2 / 3, grid_height),
+    : green_snake({0x00, 0xFF, 0x00, 0xFF}, grid_width, grid_height, grid_width * 1 / 3, grid_height),
+      blue_snake({0x00, 0x00, 0xFF, 0xFF}, grid_width, grid_height, grid_width * 2 / 3, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
@@ -24,9 +24,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake_1, snake_2);
+    controller.HandleInput(running, green_snake, blue_snake);
     Update();
-    renderer.Render(snake_1, snake_2, food);
+    renderer.Render(green_snake, blue_snake, food);
 
     frame_end = SDL_GetTicks();
 
@@ -37,8 +37,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      std::string title{"Green snake: " + std::to_string(snake_1.GetBodySize())
-                      + " <==> Blue snake: " + std::to_string(snake_2.GetBodySize())
+      std::string title{"Green snake: " + std::to_string(green_snake.GetBodySize())
+                      + " <==> Blue snake: " + std::to_string(blue_snake.GetBodySize())
                       + " | FPS: " + std::to_string(frame_count)};
       renderer.UpdateWindowTitle(title);
       frame_count = 0;
@@ -61,7 +61,7 @@ void Game::PlaceFood() {
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake_1.SnakeCell(x, y) && !snake_2.SnakeCell(x, y)) {
+    if (!green_snake.SnakeCell(x, y) && !blue_snake.SnakeCell(x, y)) {
       food.x = x;
       food.y = y;
       return;
@@ -70,18 +70,18 @@ void Game::PlaceFood() {
 }
 
 void Game::Update() {
-  if (!snake_1.Alive() || !snake_2.Alive()) return;
+  if (!green_snake.Alive() || !blue_snake.Alive()) return;
 
-  snake_1.Update();
-  snake_2.Update();
+  green_snake.Update();
+  blue_snake.Update();
 
   // Check if there's food over here
-  if (snake_1.EatFood(food) || snake_2.EatFood(food)) {
+  if (green_snake.EatFood(food) || blue_snake.EatFood(food)) {
     PlaceFood();
   }
 }
 
 void Game::PrintResult() const {
-  std::cout << "Green player's score: " << snake_1.GetBodySize() << "\n";
-  std::cout << "Blue player's score : " << snake_2.GetBodySize() << "\n";
+  std::cout << "Green player's score: " << green_snake.GetBodySize() << "\n";
+  std::cout << "Blue player's score : " << blue_snake.GetBodySize() << "\n";
 }

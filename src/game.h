@@ -15,8 +15,8 @@ class Game {
   void PrintResult() const;
 
  private:
-  Snake snake_1;
-  Snake snake_2;
+  Snake green_snake;
+  Snake blue_snake;
   SDL_Point food;
 
   std::random_device dev;

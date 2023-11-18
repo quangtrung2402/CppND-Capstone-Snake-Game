@@ -8,8 +8,9 @@ class Snake {
  public:
   enum class Direction { kNone, kUp, kDown, kLeft, kRight };
 
-  Snake(int grid_width, int grid_height, int head_x, int head_y)
-      : grid_width(grid_width),
+  Snake(SDL_Color color, int grid_width, int grid_height, int head_x, int head_y)
+      : color(color),
+        grid_width(grid_width),
         grid_height(grid_height),
         head_x(head_x),
         head_y(head_y) {}
@@ -28,11 +29,13 @@ class Snake {
   SDL_Point GetHead() const;
   std::vector<SDL_Point> GetBody() const;
   int GetBodySize() const;
+  const SDL_Color &GetColor() const;
 
  private:
   void UpdateHead();
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
+  const SDL_Color color;
   bool growing{false};
   int grid_width;
   int grid_height;

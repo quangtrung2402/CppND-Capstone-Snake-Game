@@ -58,10 +58,17 @@ This work is licensed under a
 ### 1. Loops, Functions, I/O - meet at least 2 criteria
 
 * The project demonstrates an understanding of C++ functions and control structures
-  *  Add case for switch control: __Snake::UpdateHead()__, __Controller::ChangeDirection(Snake &snake, Snake::Direction input)__
-
+  * Add case for switch control: __Snake::UpdateHead()__, __Controller::ChangeDirection(Snake &snake, Snake::Direction input)__
+  * Add move functions in the snake class: ___snake.h___
+* The project accepts user input and processes the input
+  * Add keyboard input to control the new snake: __Controller::HandleInput(bool &running, Snake &green_snake, Snake &blue_snake)__
 
 ### 2. Object Oriented Programming - meet at least 3 criteria
+
+* Class constructors utilize member initialization lists.
+  * Initialize the snake color: __Snake(SDL_Color color, int grid_width, int grid_height, int head_x, int head_y)__
+* The project uses data structures and immutable variables.
+  * Use colors in the snake
 
 ### 3. Memory Management - meet at least 3 criteria
 

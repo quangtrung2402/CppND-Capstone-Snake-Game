@@ -133,3 +133,7 @@ std::vector<SDL_Point> Snake::GetBody() const {
 int Snake::GetBodySize() const {
   return body.size();
 }
+
+const SDL_Color &Snake::GetColor() const {
+  return color;
+}

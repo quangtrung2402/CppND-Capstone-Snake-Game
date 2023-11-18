@@ -67,7 +67,8 @@ void Renderer::Render(Snake const &snake_1, Snake const &snake_2, SDL_Point cons
   block.x = static_cast<int>(head_1.x) * block.w;
   block.y = static_cast<int>(head_1.y) * block.h;
   if (snake_1.Alive()) {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF);
+    auto color = snake_1.GetColor();
+    SDL_SetRenderDrawColor(sdl_renderer, color.r, color.g, color.b, color.a);
   } else {
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
   }
@@ -87,7 +88,8 @@ void Renderer::Render(Snake const &snake_1, Snake const &snake_2, SDL_Point cons
   block.x = static_cast<int>(head_2.x) * block.w;
   block.y = static_cast<int>(head_2.y) * block.h;
   if (snake_2.Alive()) {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x00, 0xFF, 0xFF);
+    auto color = snake_2.GetColor();
+    SDL_SetRenderDrawColor(sdl_renderer, color.r, color.g, color.b, color.a);
   } else {
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
   }
