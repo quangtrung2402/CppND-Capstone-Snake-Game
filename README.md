@@ -47,21 +47,52 @@ This work is licensed under a
 
 ## New features
 
+* Allow players to change the speed of the game.
+  * The speed of the game start by 0.0
+  * The speed will change when user change from terminal
 * Add another snake to the game
   * The game can play by two players
   * First player can control their snake by W-A-S-D keys
   * Second player can control their snake by direction keys
+  * The game will stop if an snake is eaten by itself
 
 ## Rubric point
 
-### 1. Loops, Functions, I/O - meet at least 2 criteria
+### 1. Loops, Functions, I/O
 
 * The project demonstrates an understanding of C++ functions and control structures
-  *  Add case for switch control: __Snake::UpdateHead__
+  * switch control: __controller.cpp__ 6
+  * loop control: __game.cpp__ 92, 110
+  * condition control
+  * Add more functions in the snake class: __snake.h__
+* The project accepts user input and processes the input
+  * Add keyboard input to control the new snake: __controller.cpp__ 33, 
 
+### 2. Object Oriented Programming
 
-### 2. Object Oriented Programming - meet at least 3 criteria
+* One or more classes are added to the project with appropriate access specifiers for class members.
+  * Add new class Score
+* Class constructors utilize member initialization lists.
+  * Initialize the snake color: __snale.h__ 12, __game.cpp__ 6
+  * Initialize for new class Score
+* Overloaded functions allow the same function to operate on different parameters.
+  * Overload function __score.h__ 35, 39
+* The project uses immutable variables.
+  * Use immutable variables: __snake.h__ 33
 
-### 3. Memory Management - meet at least 3 criteria
+### 3. Memory Management
 
-### 4. Concurrency - meet at least 2 criteria
+* The project makes use of references in function declarations.
+  * Use references at: __controller.cpp__ 16, __renderer.cpp__ 41, __snake.cpp__ 115
+* The project uses destructors appropriately.
+* The project follows the Rule of 5.
+  * Implement in new class Score
+
+### 4. Concurrency
+
+* The project uses multithreading.
+  * __game.h__ 27
+  * __game.cpp__: 109
+* A mutex or lock is used in the project.
+  * __snake.h__: 50
+  * __snake.cpp__: 23, 86

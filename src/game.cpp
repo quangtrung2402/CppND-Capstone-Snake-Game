@@ -3,7 +3,8 @@
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
+    : green_snake({0x00, 0xFF, 0x00, 0xFF}, grid_width, grid_height, grid_width * 1 / 3, grid_height),
+      blue_snake({0x00, 0x00, 0xFF, 0xFF}, grid_width, grid_height, grid_width * 2 / 3, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
@@ -17,15 +18,15 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  bool running = true;
 
+  UpdateSpeed();
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake);
+    controller.HandleInput(running, green_snake, blue_snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(green_snake, blue_snake, food);
 
     frame_end = SDL_GetTicks();
 
@@ -36,7 +37,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      std::string title{"Green snake: " + std::to_string(green_snake.GetScore())
+                      + " <==> Blue snake: " + std::to_string(blue_snake.GetScore())
+                      + " | FPS: " + std::to_string(frame_count)};
+      renderer.UpdateWindowTitle(title);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -57,7 +61,7 @@ void Game::PlaceFood() {
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake.SnakeCell(x, y)) {
+    if (!green_snake.SnakeCell(x, y) && !blue_snake.SnakeCell(x, y)) {
       food.x = x;
       food.y = y;
       return;
@@ -66,22 +70,50 @@ void Game::PlaceFood() {
 }
 
 void Game::Update() {
-  if (!snake.alive) return;
+  if (!green_snake.Alive() || !blue_snake.Alive()) return;
 
-  snake.Update();
-
-  int new_x = static_cast<int>(snake.head_x);
-  int new_y = static_cast<int>(snake.head_y);
+  green_snake.Update();
+  blue_snake.Update();
 
   // Check if there's food over here
-  if (food.x == new_x && food.y == new_y) {
-    score++;
+  if (green_snake.EatFood(food) || blue_snake.EatFood(food)) {
     PlaceFood();
-    // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.speed += 0.02;
   }
 }
 
-int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }
+void Game::PrintResult() const {
+  std::cout << "Green player's score: " << green_snake.GetScore() << "\n";
+  std::cout << "Blue player's score : " << blue_snake.GetScore() << "\n";
+}
+
+void Game::UpdateSpeed() {
+  static auto GetInput = [&]() -> float {
+    int speed = 0;
+    while (speed == 0) {
+      std::cin >> speed;
+      if (speed < 0 || speed > 100) {
+        speed = 0;
+      }
+    }
+    return 0.1 + speed / 100.0f;
+  };
+
+  std::cout << "Please input a number for snake run (0 ~ 100): ";
+  {
+    float speed_input = GetInput();
+    // std::cin >> speed_input;
+    green_snake.SetSpeed(speed_input);
+    blue_snake.SetSpeed(speed_input);
+  }
+
+  speed_input = std::thread([&]() mutable {
+    while (running) {
+      std::cout << "You can change snake's speed if you want. The new speed (0 ~ 100) is: ";
+      auto speed = GetInput();
+      // std::cin >> speed;
+      green_snake.SetSpeed(speed);
+      blue_snake.SetSpeed(speed);
+    }
+  });
+  speed_input.detach();
+}
