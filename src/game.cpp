@@ -36,7 +36,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(snake.GetBodySize(), frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -72,11 +72,10 @@ void Game::Update() {
 
   // Check if there's food over here
   if (snake.EatFood(food)) {
-    score++;
     PlaceFood();
   }
 }
 
 void Game::PrintResult() const {
-  std::cout << "Score: " << score << "\n";
+  std::cout << "Score: " << snake.GetBodySize() << "\n";
 }

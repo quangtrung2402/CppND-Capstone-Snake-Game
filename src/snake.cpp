@@ -55,7 +55,7 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
     body.erase(body.begin());
   } else {
     growing = false;
-    size++;
+    body_size++;
   }
 
   // Check if the snake has died.
@@ -86,22 +86,22 @@ void Snake::SpeedUp() {
 }
 
 void Snake::Up() {
-  if (direction != Snake::Direction::kDown || size == 1)
+  if (direction != Snake::Direction::kDown || body_size == 0)
     direction = Snake::Direction::kUp;
 }
 
 void Snake::Down() {
-  if (direction != Snake::Direction::kUp || size == 1)
+  if (direction != Snake::Direction::kUp || body_size == 0)
     direction = Snake::Direction::kDown;
 }
 
 void Snake::Left() {
-  if (direction != Snake::Direction::kRight || size == 1)
+  if (direction != Snake::Direction::kRight || body_size == 0)
     direction = Snake::Direction::kLeft;
 }
 
 void Snake::Right() {
-  if (direction != Snake::Direction::kLeft || size == 1)
+  if (direction != Snake::Direction::kLeft || body_size == 0)
     direction = Snake::Direction::kRight;
 }
 
@@ -128,4 +128,8 @@ SDL_Point Snake::GetHead() const {
 
 std::vector<SDL_Point> Snake::GetBody() const {
   return body;
+}
+
+int Snake::GetBodySize() const {
+  return body.size();
 }

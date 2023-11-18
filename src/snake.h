@@ -11,8 +11,8 @@ class Snake {
   Snake(int grid_width, int grid_height)
       : grid_width(grid_width),
         grid_height(grid_height),
-  head_x(grid_width / 2),
-  head_y(grid_height / 2) {}
+        head_x(grid_width / 2),
+        head_y(grid_height / 2) {}
 
   void Update();
 
@@ -27,6 +27,7 @@ class Snake {
   bool EatFood(const SDL_Point &food);
   SDL_Point GetHead() const;
   std::vector<SDL_Point> GetBody() const;
+  int GetBodySize() const;
 
  private:
   void UpdateHead();
@@ -37,7 +38,7 @@ class Snake {
   int grid_height;
   float speed{0.1f};
   Direction direction = Direction::kNone;
-  int size{1};
+  int body_size{0};
   bool alive{true};
   float head_x;
   float head_y;
