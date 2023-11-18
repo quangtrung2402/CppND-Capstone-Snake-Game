@@ -80,3 +80,52 @@ bool Snake::SnakeCell(int x, int y) {
   }
   return false;
 }
+
+void Snake::SpeedUp() {
+  speed += 0.02;
+}
+
+void Snake::Up() {
+  if (direction != Snake::Direction::kDown || size == 1)
+    direction = Snake::Direction::kUp;
+}
+
+void Snake::Down() {
+  if (direction != Snake::Direction::kUp || size == 1)
+    direction = Snake::Direction::kDown;
+}
+
+void Snake::Left() {
+  if (direction != Snake::Direction::kRight || size == 1)
+    direction = Snake::Direction::kLeft;
+}
+
+void Snake::Right() {
+  if (direction != Snake::Direction::kLeft || size == 1)
+    direction = Snake::Direction::kRight;
+}
+
+bool Snake::Alive() const {
+  return alive;
+}
+
+bool Snake::EatFood(const SDL_Point &food) {
+  // Check if there's food over here
+  if (food.x == static_cast<int>(head_x) && food.y == static_cast<int>(head_y)) {
+    // Grow snake and increase speed.
+    GrowBody();
+    SpeedUp();
+    return true;
+  }
+  return false;
+}
+
+SDL_Point Snake::GetHead() const {
+  return SDL_Point{
+      static_cast<int>(head_x),
+      static_cast<int>(head_y)};
+}
+
+std::vector<SDL_Point> Snake::GetBody() const {
+  return body;
+}

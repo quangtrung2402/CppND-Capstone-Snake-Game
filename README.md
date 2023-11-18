@@ -51,17 +51,21 @@ This work is licensed under a
   * The game can play by two players
   * First player can control their snake by W-A-S-D keys
   * Second player can control their snake by direction keys
+  * The game will stop if an snake is eaten by itself
 
 ## Rubric point
 
 ### 1. Loops, Functions, I/O - meet at least 2 criteria
 
 * The project demonstrates an understanding of C++ functions and control structures
-  *  Add case for switch control: __Snake::UpdateHead__
+  *  Add case for switch control: __Snake::UpdateHead()__, __Controller::ChangeDirection(Snake &snake, Snake::Direction input)__
 
 
 ### 2. Object Oriented Programming - meet at least 3 criteria
 
 ### 3. Memory Management - meet at least 3 criteria
+
+* The project makes use of references in function declarations.
+  * Use references at: __Snake::EatFood(const SDL_Point &food)__
 
 ### 4. Concurrency - meet at least 2 criteria

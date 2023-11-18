@@ -11,22 +11,22 @@ class Snake {
   Snake(int grid_width, int grid_height)
       : grid_width(grid_width),
         grid_height(grid_height),
-        head_x(grid_width / 2),
-        head_y(grid_height / 2) {}
+  head_x(grid_width / 2),
+  head_y(grid_height / 2) {}
 
   void Update();
 
   void GrowBody();
   bool SnakeCell(int x, int y);
-
-  Direction direction = Direction::kNone;
-
-  float speed{0.1f};
-  int size{1};
-  bool alive{true};
-  float head_x;
-  float head_y;
-  std::vector<SDL_Point> body;
+  void SpeedUp();
+  void Up();
+  void Down();
+  void Left();
+  void Right();
+  bool Alive() const;
+  bool EatFood(const SDL_Point &food);
+  SDL_Point GetHead() const;
+  std::vector<SDL_Point> GetBody() const;
 
  private:
   void UpdateHead();
@@ -35,6 +35,13 @@ class Snake {
   bool growing{false};
   int grid_width;
   int grid_height;
+  float speed{0.1f};
+  Direction direction = Direction::kNone;
+  int size{1};
+  bool alive{true};
+  float head_x;
+  float head_y;
+  std::vector<SDL_Point> body;
 };
 
 #endif
