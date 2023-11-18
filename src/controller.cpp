@@ -3,13 +3,17 @@
 #include "SDL.h"
 #include "snake.h"
 
-void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
-                                 Snake::Direction opposite) const {
-  if (snake.direction != opposite || snake.size == 1) snake.direction = input;
-  return;
+void Controller::ChangeDirection(Snake &snake, Snake::Direction input) const {
+  switch (input) {
+    case Snake::Direction::kUp:     snake.Up();     break;
+    case Snake::Direction::kDown:   snake.Down();   break;
+    case Snake::Direction::kLeft:   snake.Left();   break;
+    case Snake::Direction::kRight:  snake.Right();  break;
+    default: break;
+  }
 }
 
-void Controller::HandleInput(bool &running, Snake &snake) const {
+void Controller::HandleInput(bool &running, Snake &snake_1, Snake &snake_2) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
@@ -17,23 +21,28 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_UP:
-          ChangeDirection(snake, Snake::Direction::kUp,
-                          Snake::Direction::kDown);
+          ChangeDirection(snake_2, Snake::Direction::kUp);
           break;
-
         case SDLK_DOWN:
-          ChangeDirection(snake, Snake::Direction::kDown,
-                          Snake::Direction::kUp);
+          ChangeDirection(snake_2, Snake::Direction::kDown);
           break;
-
         case SDLK_LEFT:
-          ChangeDirection(snake, Snake::Direction::kLeft,
-                          Snake::Direction::kRight);
+          ChangeDirection(snake_2, Snake::Direction::kLeft);
           break;
-
         case SDLK_RIGHT:
-          ChangeDirection(snake, Snake::Direction::kRight,
-                          Snake::Direction::kLeft);
+          ChangeDirection(snake_2, Snake::Direction::kRight);
+          break;
+        case SDLK_w:
+          ChangeDirection(snake_1, Snake::Direction::kUp);
+          break;
+        case SDLK_s:
+          ChangeDirection(snake_1, Snake::Direction::kDown);
+          break;
+        case SDLK_a:
+          ChangeDirection(snake_1, Snake::Direction::kLeft);
+          break;
+        case SDLK_d:
+          ChangeDirection(snake_1, Snake::Direction::kRight);
           break;
       }
     }
