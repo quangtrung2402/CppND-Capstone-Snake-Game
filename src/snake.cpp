@@ -36,6 +36,9 @@ void Snake::UpdateHead() {
     case Direction::kRight:
       head_x += speed;
       break;
+    case Direction::kNone:
+      // Snake doesn't move, so we don't need to update the head
+      return;
   }
 
   // Wrap the Snake around to the beginning if going off of the screen.

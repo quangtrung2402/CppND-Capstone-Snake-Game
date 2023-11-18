@@ -49,12 +49,16 @@ This work is licensed under a
 
 * Add another snake to the game
   * The game can play by two players
-  * First player can play by W-A-S-D keys
-  * Second player can play by direction keys
+  * First player can control their snake by W-A-S-D keys
+  * Second player can control their snake by direction keys
 
 ## Rubric point
 
 ### 1. Loops, Functions, I/O - meet at least 2 criteria
+
+* The project demonstrates an understanding of C++ functions and control structures
+  *  Add case for switch control: __Snake::UpdateHead__
+
 
 ### 2. Object Oriented Programming - meet at least 3 criteria
 
