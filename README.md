@@ -44,3 +44,20 @@ This work is licensed under a
 [cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
 [cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
 [cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
+
+## New features
+
+* Add another snake to the game
+  * The game can play by two players
+  * First player can play by W-A-S-D keys
+  * Second player can play by direction keys
+
+## Rubric point
+
+### 1. Loops, Functions, I/O - meet at least 2 criteria
+
+### 2. Object Oriented Programming - meet at least 3 criteria
+
+### 3. Memory Management - meet at least 3 criteria
+
+### 4. Concurrency - meet at least 2 criteria
